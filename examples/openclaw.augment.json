@@ -1,0 +1,25 @@
+{
+  "plugins": {
+    "entries": {
+      "spectron": {
+        "enabled": true,
+        "hooks": {
+          "allowConversationAccess": true,
+          "allowPromptInjection": true
+        },
+        "config": {
+          "endpoint": "${SPECTRON_ENDPOINT}",
+          "apiKey": "${SPECTRON_API_KEY}",
+          "context": "${SPECTRON_CONTEXT}",
+          "autoRecall": true,
+          "autoCapture": true,
+          "autoConsolidate": true,
+          "autoIndex": true,
+          "recallK": 5,
+          "injectMode": "context",
+          "infer": "full"
+        }
+      }
+    }
+  }
+}

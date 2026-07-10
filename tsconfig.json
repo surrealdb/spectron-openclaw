@@ -14,5 +14,5 @@
     "verbatimModuleSyntax": false,
     "outDir": "dist"
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "examples"]
 }

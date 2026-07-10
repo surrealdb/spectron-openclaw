@@ -110,6 +110,10 @@ openclaw spectron reflect <query>      # synthesise an answer from memory
 openclaw spectron forget <query>       # forget matching memories
 ```
 
+## Examples
+
+See [`examples/`](examples/): two ready-to-merge OpenClaw configs (augment and takeover) and a runnable `quickstart.ts` that walks through each Spectron operation the plugin drives.
+
 ## Memory modes
 
 - **Augment (default):** runs alongside the built-in `memory-core`. Nothing about the memory slot changes.

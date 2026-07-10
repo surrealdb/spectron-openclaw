@@ -1,0 +1,23 @@
+{
+  "plugins": {
+    "slots": {
+      "memory": "spectron"
+    },
+    "entries": {
+      "spectron": {
+        "enabled": true,
+        "hooks": {
+          "allowConversationAccess": true,
+          "allowPromptInjection": true
+        },
+        "config": {
+          "endpoint": "${SPECTRON_ENDPOINT}",
+          "apiKey": "${SPECTRON_API_KEY}",
+          "context": "${SPECTRON_CONTEXT}",
+          "writeScope": "org/acme",
+          "recallLens": "org/acme"
+        }
+      }
+    }
+  }
+}
