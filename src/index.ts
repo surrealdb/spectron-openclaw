@@ -1,6 +1,6 @@
 // @surrealdb/agent-memory-openclaw
 //
-// OpenClaw plugin that backs agent memory with SurrealDB AgentMemory. It runs in
+// OpenClaw plugin that backs agent memory with SurrealDB Agent Memory. It runs in
 // augment mode by default: automatic recall injects memory before each turn,
 // automatic persistence saves each turn afterwards, a session-end pass
 // consolidates, and seven tools plus an `openclaw agentMemory` CLI give deliberate
@@ -152,7 +152,7 @@ function registerCli(
       run: async (args: Record<string, unknown>) => setupCommand({ takeover: args.takeover === true }),
     },
     { name: "status", description: "Show configuration, slot mode, and identity.", run: () => statusCommand(makeCtx()) },
-    { name: "health", description: "Check the AgentMemory connection.", run: () => healthCommand(makeCtx()) },
+    { name: "health", description: "Check the Agent Memory connection.", run: () => healthCommand(makeCtx()) },
     { name: "index", description: "Seed workspace memory files into the context.", run: () => indexCommand(makeCtx()) },
     {
       name: "recall",
@@ -173,7 +173,7 @@ function registerCli(
   ];
 
   try {
-    api.registerCli({ name: PLUGIN_ID, description: "SurrealDB AgentMemory memory.", commands });
+    api.registerCli({ name: PLUGIN_ID, description: "SurrealDB Agent Memory.", commands });
   } catch (err) {
     log.warn("agentMemory: CLI registration failed", err);
   }

@@ -1,4 +1,4 @@
-// Normalises OpenClaw conversation turns into AgentMemory batch messages.
+// Normalises OpenClaw conversation turns into Agent Memory batch messages.
 //
 // OpenClaw messages carry platform metadata (channel/conversation info, sender
 // headers, thread context, forwarded-message wrappers) that should not be
@@ -56,7 +56,7 @@ function extractTs(message: RawMessage): string | undefined {
 }
 
 /**
- * Converts OpenClaw messages to AgentMemory batch messages, dropping empties.
+ * Converts OpenClaw messages to Agent Memory batch messages, dropping empties.
  * Returns an empty array when there is nothing worth persisting.
  */
 export function toBatchMessages(messages: readonly RawMessage[] | undefined): BatchMessage[] {

@@ -64,7 +64,7 @@ export function setupCommand(opts: { takeover?: boolean } = {}): string {
   if (opts.takeover) {
     lines.push(
       "",
-      "Takeover (EXPERIMENTAL): also merge this to make AgentMemory the sole memory",
+      "Takeover (EXPERIMENTAL): also merge this to make Agent Memory the sole memory",
       "provider, disabling the built-in memory-core:",
       "",
       JSON.stringify(takeoverConfigPatch(), null, 2),
@@ -72,7 +72,7 @@ export function setupCommand(opts: { takeover?: boolean } = {}): string {
   } else {
     lines.push(
       "",
-      "This runs alongside built-in memory (augment mode). To make AgentMemory the",
+      "This runs alongside built-in memory (augment mode). To make Agent Memory the",
       "sole provider instead, re-run with --takeover.",
     );
   }

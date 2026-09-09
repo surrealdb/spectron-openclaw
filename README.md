@@ -1,16 +1,16 @@
 # @surrealdb/agent-memory-openclaw
 
-OpenClaw plugin that backs agent memory with [SurrealDB AgentMemory](https://surrealdb.com/platform/agentMemory).
+OpenClaw plugin that backs agent memory with [SurrealDB Agent Memory](https://surrealdb.com/agent-memory).
 
-It gives an [OpenClaw](https://docs.openclaw.ai/) agent long-term memory that survives session restarts and fresh chats: relevant memory is recalled before each turn, each turn is persisted afterwards, and the agent gets tools and a CLI for deliberate memory access. AgentMemory stores memory, knowledge graphs, and documents in one ACID context, so what the agent learns stays consistent.
+It gives an [OpenClaw](https://docs.openclaw.ai/) agent long-term memory that survives session restarts and fresh chats: relevant memory is recalled before each turn, each turn is persisted afterwards, and the agent gets tools and a CLI for deliberate memory access. Agent Memory stores memory, knowledge graphs, and documents in one ACID context, so what the agent learns stays consistent.
 
 ## How it works
 
-The plugin maps AgentMemory's operations onto OpenClaw's agent lifecycle:
+The plugin maps Agent Memory's operations onto OpenClaw's agent lifecycle:
 
-| AgentMemory | OpenClaw hook | What happens | Gated by |
+| Agent Memory | OpenClaw hook | What happens | Gated by |
 | --- | --- | --- | --- |
-| `context` / `recall` | `before_prompt_build` | Relevant memory is injected as `<agent_memory_memory>` before the model runs | `autoRecall` + `hooks.allowPromptInjection` |
+| `context` / `recall` | `before_prompt_build` | Relevant memory is injected as `<agent_memory>` before the model runs | `autoRecall` + `hooks.allowPromptInjection` |
 | `rememberMany` | `agent_end` | The turn is persisted (platform metadata stripped) | `autoCapture` + `hooks.allowConversationAccess` |
 | `consolidate` | `session_end` | Recent facts are consolidated into durable observations | `autoConsolidate` |
 | `documents.upload` | `gateway_start` + `agentMemory index` | Workspace memory files (`MEMORY.md`, `memory/**`) are seeded | `autoIndex` |
@@ -21,7 +21,7 @@ By default it **augments** OpenClaw's built-in memory. It can optionally **take 
 ## Prerequisites
 
 - OpenClaw `>= 2026.4.27` (the version where `agent_end` requires `allowConversationAccess`).
-- A AgentMemory endpoint and API key, either SurrealDB Cloud or the self-hosted AgentMemory binary, plus a context id. Each context is its own SurrealDB namespace and database.
+- An Agent Memory endpoint and API key, either SurrealDB Cloud or the self-hosted Agent Memory binary, plus a context id. Each context is its own SurrealDB namespace and database.
 
 ## Install
 
@@ -69,9 +69,9 @@ Both hook flags are required. `allowConversationAccess` lets OpenClaw deliver `a
 
 | Key | Default | Purpose |
 | --- | --- | --- |
-| `endpoint` | required | AgentMemory API origin, no trailing slash |
+| `endpoint` | required | Agent Memory API origin, no trailing slash |
 | `apiKey` | required | Bearer API key (`sp-...`) |
-| `context` | required | AgentMemory context id (namespace + database) |
+| `context` | required | Agent Memory context id (namespace + database) |
 | `recallLens` / `recallScope` | whole region | Read lens narrowing recall (scope path, or array of paths) |
 | `writeScope` | key default | Scope written memories are tagged with |
 | `onBehalfOf` | (none) | Principal id for delegated calls (`X-AgentMemory-On-Behalf-Of`) |
@@ -84,7 +84,7 @@ Both hook flags are required. `allowConversationAccess` lets OpenClaw deliver `a
 | `infer` | `"full"` | Extraction mode: `full`, `triples`, `preview`, `none` |
 | `requestTimeoutMs` | `60000` | Per-request timeout |
 
-Scopes follow AgentMemory's DNF syntax: a path string `"team/eng"`, an OR of paths `["a", "b"]`, or a nested AND clause `[["a", "b"]]`.
+Scopes follow Agent Memory's DNF syntax: a path string `"team/eng"`, an OR of paths `["a", "b"]`, or a nested AND clause `[["a", "b"]]`.
 
 ## Agent tools
 
@@ -112,16 +112,16 @@ openclaw agentMemory forget <query>       # forget matching memories
 
 ## Examples
 
-See [`examples/`](examples/): two ready-to-merge OpenClaw configs (augment and takeover) and a runnable `quickstart.ts` that walks through each AgentMemory operation the plugin drives.
+See [`examples/`](examples/): two ready-to-merge OpenClaw configs (augment and takeover) and a runnable `quickstart.ts` that walks through each Agent Memory operation the plugin drives.
 
 ## Memory modes
 
 - **Augment (default):** runs alongside the built-in `memory-core`. Nothing about the memory slot changes.
-- **Takeover (experimental):** `openclaw agentMemory setup --takeover` prints a patch that sets `plugins.slots.memory` to `agentMemory`, making AgentMemory the sole memory provider. The slot ownership contract is inferred from the OpenClaw docs and is not yet verified against a pinned release, so treat takeover as experimental.
+- **Takeover (experimental):** `openclaw agentMemory setup --takeover` prints a patch that sets `plugins.slots.memory` to `agentMemory`, making Agent Memory the sole memory provider. The slot ownership contract is inferred from the OpenClaw docs and is not yet verified against a pinned release, so treat takeover as experimental.
 
 ## Verification
 
-Unit tests run without a AgentMemory endpoint (an in-memory fake client stands in):
+Unit tests run without an Agent Memory endpoint (an in-memory fake client stands in):
 
 ```bash
 npm run typecheck
@@ -129,7 +129,7 @@ npm test
 npm run build
 ```
 
-End-to-end against a real AgentMemory (requires an endpoint + key):
+End-to-end against a real Agent Memory (requires an endpoint + key):
 
 ```bash
 export AGENT_MEMORY_ENDPOINT=... AGENT_MEMORY_API_KEY=... AGENT_MEMORY_CONTEXT=...
@@ -143,7 +143,7 @@ openclaw agentMemory status
 ## Notes
 
 - Built against `@surrealdb/memory` (alpha) and the documented OpenClaw plugin API. Both are young; pin versions and re-check the hook and CLI registration surfaces if either drifts.
-- Memory "types" (working, semantic, episodic, and so on) are a conceptual framing over AgentMemory's fact/entity/document substrate, not an API parameter. Categorisation is influenced through `infer` and scopes.
+- Memory "types" (working, semantic, episodic, and so on) are a conceptual framing over Agent Memory's fact/entity/document substrate, not an API parameter. Categorisation is influenced through `infer` and scopes.
 
 ## License
 

@@ -1,9 +1,9 @@
-// Quickstart: the AgentMemory operations this plugin wires into OpenClaw, run
+// Quickstart: the Agent Memory operations this plugin wires into OpenClaw, run
 // directly against the SDK so you can see them work end to end without a
 // gateway. Each step notes the OpenClaw hook it corresponds to inside the
 // plugin.
 //
-// Run against a live AgentMemory endpoint:
+// Run against a live Agent Memory endpoint:
 //   export AGENT_MEMORY_ENDPOINT=... AGENT_MEMORY_API_KEY=... AGENT_MEMORY_CONTEXT=...
 //   npx tsx examples/quickstart.ts
 //

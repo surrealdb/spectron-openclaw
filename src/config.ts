@@ -18,7 +18,7 @@ export interface ResolvedConfig {
   recallLens: Scope;
   /** Scope the plugin writes memories to. Undefined = the key's default write region. */
   writeScope: Scope;
-  /** Principal to act on behalf of for every call (X-AgentMemory-On-Behalf-Of). */
+  /** Principal to act on behalf of for every call (X-Agent Memory-On-Behalf-Of). */
   onBehalfOf?: string;
   autoRecall: boolean;
   autoCapture: boolean;

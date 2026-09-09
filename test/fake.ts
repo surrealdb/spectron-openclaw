@@ -1,5 +1,5 @@
 // In-memory MemoryClient for tests. Records calls and returns canned responses
-// so hooks, tools, and CLI handlers can be exercised without a live AgentMemory.
+// so hooks, tools, and CLI handlers can be exercised without a live Agent Memory.
 
 import type { BatchMessage, MemoryClient, Scope, UploadArgs } from "../src/types.js";
 

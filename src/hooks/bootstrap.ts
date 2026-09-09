@@ -1,7 +1,7 @@
-// gateway_start: verify the AgentMemory connection early and, when autoIndex is
+// gateway_start: verify the Agent Memory connection early and, when autoIndex is
 // on, seed the context with the workspace's local memory files (MEMORY.md and
 // anything under memory/). This mirrors how the built-in memory keeps editable
-// Markdown, so existing notes are searchable through AgentMemory too.
+// Markdown, so existing notes are searchable through Agent Memory too.
 
 import { readFile, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";

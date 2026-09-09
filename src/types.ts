@@ -3,7 +3,7 @@
 // Two things live here:
 //  1. MemoryClient: the narrow slice of the @surrealdb/memory client that the
 //     hooks, tools, and CLI actually use. Depending on this slice (rather than
-//     the full AgentMemory class) keeps the memory logic decoupled from the SDK
+//     the full Agent Memory class) keeps the memory logic decoupled from the SDK
 //     and lets tests inject a fake.
 //  2. The OpenClaw plugin API shapes we register against. OpenClaw is a
 //     peerDependency provided by the gateway at runtime, so its types are not
@@ -32,7 +32,7 @@ type BatchMessage = components["schemas"]["BatchMessage"];
 
 export type { Scope, BatchMessage };
 
-/** Upload arguments we pass through to AgentMemory's documents.upload. */
+/** Upload arguments we pass through to Agent Memory's documents.upload. */
 export interface UploadArgs {
   file: Uint8Array | ArrayBuffer | Blob;
   filename?: string;
@@ -43,7 +43,7 @@ export interface UploadArgs {
 }
 
 /**
- * The subset of the AgentMemory client the plugin uses. Mirrors the real method
+ * The subset of the Agent Memory client the plugin uses. Mirrors the real method
  * signatures from @surrealdb/memory so the concrete client satisfies it
  * structurally.
  */

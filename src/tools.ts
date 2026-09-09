@@ -1,4 +1,4 @@
-// The seven agent-callable tools, one per AgentMemory operation. The agent uses
+// The seven agent-callable tools, one per Agent Memory operation. The agent uses
 // these for deliberate memory access, distinct from the automatic recall and
 // persistence the hooks provide. Following memsearch's progressive pattern,
 // agent_memory_recall is the semantic entry point, agent_memory_context returns
@@ -22,7 +22,7 @@ async function guard(run: () => Promise<ToolResult>): Promise<ToolResult> {
     return await run();
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return fail(`AgentMemory error: ${message}`);
+    return fail(`Agent Memory error: ${message}`);
   }
 }
 

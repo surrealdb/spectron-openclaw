@@ -1,4 +1,4 @@
-// agent_end: persist the turn's conversation into AgentMemory so it becomes
+// agent_end: persist the turn's conversation into Agent Memory so it becomes
 // durable memory. Gated by autoCapture and, at registration time, by the
 // allowConversationAccess permission flag (without which OpenClaw will not even
 // deliver agent_end to a non-bundled plugin).
