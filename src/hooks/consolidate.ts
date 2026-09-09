@@ -23,7 +23,7 @@ export async function consolidateSession(
     const res = await client.consolidate();
     return res?.created ?? 0;
   } catch (err) {
-    log?.warn("spectron consolidate failed", err);
+    log?.warn("agentMemory consolidate failed", err);
     return 0;
   }
 }

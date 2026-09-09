@@ -1,4 +1,4 @@
-// agent_end: persist the turn's conversation into Spectron so it becomes
+// agent_end: persist the turn's conversation into AgentMemory so it becomes
 // durable memory. Gated by autoCapture and, at registration time, by the
 // allowConversationAccess permission flag (without which OpenClaw will not even
 // deliver agent_end to a non-bundled plugin).
@@ -28,7 +28,7 @@ export async function persistTurn(
     });
     return batch.length;
   } catch (err) {
-    log?.warn("spectron persist failed", err);
+    log?.warn("agentMemory persist failed", err);
     return 0;
   }
 }

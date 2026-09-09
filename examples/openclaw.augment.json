@@ -1,16 +1,16 @@
 {
   "plugins": {
     "entries": {
-      "spectron": {
+      "agentMemory": {
         "enabled": true,
         "hooks": {
           "allowConversationAccess": true,
           "allowPromptInjection": true
         },
         "config": {
-          "endpoint": "${SPECTRON_ENDPOINT}",
-          "apiKey": "${SPECTRON_API_KEY}",
-          "context": "${SPECTRON_CONTEXT}",
+          "endpoint": "${AGENT_MEMORY_ENDPOINT}",
+          "apiKey": "${AGENT_MEMORY_API_KEY}",
+          "context": "${AGENT_MEMORY_CONTEXT}",
           "autoRecall": true,
           "autoCapture": true,
           "autoConsolidate": true,

@@ -1,7 +1,7 @@
 // Coerces scope values arriving from JSON config into the Scope shape the
-// Spectron SDK accepts.
+// AgentMemory SDK accepts.
 //
-// Spectron scopes are a DNF selector (string[][]): an OR of clauses, each an
+// AgentMemory scopes are a DNF selector (string[][]): an OR of clauses, each an
 // AND of "key/value" slash paths. The SDK also accepts a bare string and a
 // flat string array as shorthands and normalises them internally, so this
 // helper only needs to pass valid shapes through and drop empty ones.

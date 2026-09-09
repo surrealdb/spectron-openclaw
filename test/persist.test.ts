@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { persistTurn } from "../src/hooks/persist.js";
 import { consolidateSession } from "../src/hooks/consolidate.js";
-import { FakeSpectron } from "./fake.js";
+import { FakeAgentMemory } from "./fake.js";
 import { makeConfig } from "./helpers.js";
 
 describe("persistTurn", () => {
   it("sends stripped messages via rememberMany and returns the count", async () => {
-    const client = new FakeSpectron();
+    const client = new FakeAgentMemory();
     const n = await persistTurn(client, makeConfig({ writeScope: "team/eng" }), [
       { role: "user", content: "hello", sender: "x" } as any,
       { role: "assistant", content: "hi there" },
@@ -22,13 +22,13 @@ describe("persistTurn", () => {
   });
 
   it("does nothing when there is no content", async () => {
-    const client = new FakeSpectron();
+    const client = new FakeAgentMemory();
     expect(await persistTurn(client, makeConfig(), [{ role: "user", content: "" }])).toBe(0);
     expect(client.countOf("rememberMany")).toBe(0);
   });
 
   it("swallows write errors", async () => {
-    const client = new FakeSpectron({ throwOn: { rememberMany: new Error("nope") } });
+    const client = new FakeAgentMemory({ throwOn: { rememberMany: new Error("nope") } });
     const warnings: string[] = [];
     const n = await persistTurn(client, makeConfig(), [{ role: "user", content: "x" }], {
       warn: (m) => warnings.push(m),
@@ -40,18 +40,18 @@ describe("persistTurn", () => {
 
 describe("consolidateSession", () => {
   it("is a no-op when disabled", async () => {
-    const client = new FakeSpectron({ consolidated: 3 });
+    const client = new FakeAgentMemory({ consolidated: 3 });
     expect(await consolidateSession(client, makeConfig({ autoConsolidate: false }))).toBe(0);
     expect(client.countOf("consolidate")).toBe(0);
   });
 
   it("returns the created count", async () => {
-    const client = new FakeSpectron({ consolidated: 4 });
+    const client = new FakeAgentMemory({ consolidated: 4 });
     expect(await consolidateSession(client, makeConfig())).toBe(4);
   });
 
   it("swallows errors", async () => {
-    const client = new FakeSpectron({ throwOn: { consolidate: new Error("x") } });
+    const client = new FakeAgentMemory({ throwOn: { consolidate: new Error("x") } });
     expect(await consolidateSession(client, makeConfig())).toBe(0);
   });
 });

@@ -1,5 +1,5 @@
 // In-memory MemoryClient for tests. Records calls and returns canned responses
-// so hooks, tools, and CLI handlers can be exercised without a live Spectron.
+// so hooks, tools, and CLI handlers can be exercised without a live AgentMemory.
 
 import type { BatchMessage, MemoryClient, Scope, UploadArgs } from "../src/types.js";
 
@@ -25,7 +25,7 @@ export interface FakeOptions {
   throwOn?: Record<string, Error>;
 }
 
-export class FakeSpectron implements MemoryClient {
+export class FakeAgentMemory implements MemoryClient {
   readonly calls: Call[] = [];
   readonly documents: { upload(args: UploadArgs): Promise<unknown> };
 

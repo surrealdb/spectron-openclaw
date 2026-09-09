@@ -5,8 +5,8 @@
 import type { ResolvedConfig } from "../config.js";
 import type { MemoryClient, PromptBuildResult } from "../types.js";
 
-export const MEMORY_OPEN = "<spectron_memory>";
-export const MEMORY_CLOSE = "</spectron_memory>";
+export const MEMORY_OPEN = "<agent_memory_memory>";
+export const MEMORY_CLOSE = "</agent_memory_memory>";
 
 /** Wraps recalled text in the tag the agent is told to treat as memory. */
 export function wrapMemory(body: string): string {
@@ -15,7 +15,7 @@ export function wrapMemory(body: string): string {
 
 /**
  * Fetches memory for `query` and returns the text to inject, or null when
- * there is nothing to add. In "context" mode Spectron returns preformatted
+ * there is nothing to add. In "context" mode AgentMemory returns preformatted
  * prompt text; in "recall" mode we format the ranked hits ourselves.
  */
 export async function buildRecallContext(
@@ -59,7 +59,7 @@ export async function onPromptBuild(
     const body = await buildRecallContext(client, config, query);
     return body ? { prependContext: body } : null;
   } catch (err) {
-    log?.warn("spectron recall failed", err);
+    log?.warn("agentMemory recall failed", err);
     return null;
   }
 }

@@ -1,15 +1,15 @@
 import { resolveConfig, type ResolvedConfig } from "../src/config.js";
 
 const ENV = {
-  SPECTRON_ENDPOINT: "https://ep.example",
-  SPECTRON_API_KEY: "sp-secret",
-  SPECTRON_CONTEXT: "acme",
+  AGENT_MEMORY_ENDPOINT: "https://ep.example",
+  AGENT_MEMORY_API_KEY: "sp-secret",
+  AGENT_MEMORY_CONTEXT: "acme",
 };
 
 const BASE = {
-  endpoint: "${SPECTRON_ENDPOINT}",
-  apiKey: "${SPECTRON_API_KEY}",
-  context: "${SPECTRON_CONTEXT}",
+  endpoint: "${AGENT_MEMORY_ENDPOINT}",
+  apiKey: "${AGENT_MEMORY_API_KEY}",
+  context: "${AGENT_MEMORY_CONTEXT}",
 };
 
 /** Builds a resolved config with optional raw overrides. */

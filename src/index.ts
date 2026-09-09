@@ -1,9 +1,9 @@
-// @surrealdb/spectron-openclaw
+// @surrealdb/agent-memory-openclaw
 //
-// OpenClaw plugin that backs agent memory with SurrealDB Spectron. It runs in
+// OpenClaw plugin that backs agent memory with SurrealDB AgentMemory. It runs in
 // augment mode by default: automatic recall injects memory before each turn,
 // automatic persistence saves each turn afterwards, a session-end pass
-// consolidates, and seven tools plus an `openclaw spectron` CLI give deliberate
+// consolidates, and seven tools plus an `openclaw agentMemory` CLI give deliberate
 // access. Optional takeover claims OpenClaw's exclusive memory slot.
 //
 // Registration is defensive: every api member is feature-detected so the
@@ -30,7 +30,7 @@ import {
 } from "./cli.js";
 import type { MemoryClient, OpenClawPluginApi, PluginLogger } from "./types.js";
 
-const PLUGIN_ID = "spectron";
+const PLUGIN_ID = "agentMemory";
 
 /** Best-effort noop logger when the api does not supply one. */
 function makeLogger(api: OpenClawPluginApi): PluginLogger {
@@ -86,8 +86,8 @@ function registerHooks(
       });
     } else {
       log.warn(
-        "spectron: autoRecall is on but hooks.allowPromptInjection is not set; " +
-          "recall injection is disabled. Run `openclaw spectron setup`.",
+        "agentMemory: autoRecall is on but hooks.allowPromptInjection is not set; " +
+          "recall injection is disabled. Run `openclaw agentMemory setup`.",
       );
     }
   }
@@ -100,9 +100,9 @@ function registerHooks(
       });
     } else {
       log.warn(
-        "spectron: autoCapture is on but hooks.allowConversationAccess is not set; " +
+        "agentMemory: autoCapture is on but hooks.allowConversationAccess is not set; " +
           "per-turn persistence is disabled (OpenClaw will not deliver agent_end). " +
-          "Run `openclaw spectron setup`.",
+          "Run `openclaw agentMemory setup`.",
       );
     }
   }
@@ -127,7 +127,7 @@ function registerTools(
   log: PluginLogger,
 ): void {
   if (typeof api.registerTool !== "function") {
-    log.warn("spectron: api.registerTool unavailable; agent tools not registered");
+    log.warn("agentMemory: api.registerTool unavailable; agent tools not registered");
     return;
   }
   for (const tool of buildTools(resolve, config)) {
@@ -152,7 +152,7 @@ function registerCli(
       run: async (args: Record<string, unknown>) => setupCommand({ takeover: args.takeover === true }),
     },
     { name: "status", description: "Show configuration, slot mode, and identity.", run: () => statusCommand(makeCtx()) },
-    { name: "health", description: "Check the Spectron connection.", run: () => healthCommand(makeCtx()) },
+    { name: "health", description: "Check the AgentMemory connection.", run: () => healthCommand(makeCtx()) },
     { name: "index", description: "Seed workspace memory files into the context.", run: () => indexCommand(makeCtx()) },
     {
       name: "recall",
@@ -173,16 +173,16 @@ function registerCli(
   ];
 
   try {
-    api.registerCli({ name: PLUGIN_ID, description: "SurrealDB Spectron memory.", commands });
+    api.registerCli({ name: PLUGIN_ID, description: "SurrealDB AgentMemory memory.", commands });
   } catch (err) {
-    log.warn("spectron: CLI registration failed", err);
+    log.warn("agentMemory: CLI registration failed", err);
   }
 }
 
 export default definePluginEntry({
   id: PLUGIN_ID,
-  name: "SurrealDB Spectron",
-  description: "Backs OpenClaw agent memory with SurrealDB Spectron.",
+  name: "SurrealDB AgentMemory",
+  description: "Backs OpenClaw agent memory with SurrealDB AgentMemory.",
   register(api: OpenClawPluginApi) {
     const log = makeLogger(api);
 
@@ -195,7 +195,7 @@ export default definePluginEntry({
     }
 
     const resolve = (): MemoryClient => {
-      if (!config) throw new Error("spectron is not configured");
+      if (!config) throw new Error("agentMemory is not configured");
       return getClient(config);
     };
 
@@ -212,9 +212,9 @@ export default definePluginEntry({
       const client = getClient(config);
       registerTools(api, config, resolve, log);
       registerHooks(api, config, client, log);
-      log.info(`spectron: ready (context ${config.context})`);
+      log.info(`agentMemory: ready (context ${config.context})`);
     } else {
-      log.warn("spectron: not configured; only the `openclaw spectron setup` command is active.");
+      log.warn("agentMemory: not configured; only the `openclaw agentMemory setup` command is active.");
     }
   },
 });
