@@ -1,7 +1,7 @@
-// gateway_start: verify the Spectron connection early and, when autoIndex is
+// gateway_start: verify the Agent Memory connection early and, when autoIndex is
 // on, seed the context with the workspace's local memory files (MEMORY.md and
 // anything under memory/). This mirrors how the built-in memory keeps editable
-// Markdown, so existing notes are searchable through Spectron too.
+// Markdown, so existing notes are searchable through Agent Memory too.
 
 import { readFile, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
@@ -74,10 +74,10 @@ export async function bootstrap(
   let ok = true;
   try {
     await client.health();
-    log?.info("spectron: connection healthy");
+    log?.info("agentMemory: connection healthy");
   } catch (err) {
     ok = false;
-    log?.warn("spectron: health check failed", err);
+    log?.warn("agentMemory: health check failed", err);
   }
 
   let uploaded = 0;
@@ -95,10 +95,10 @@ export async function bootstrap(
         });
         uploaded += 1;
       } catch (err) {
-        log?.warn(`spectron: upload failed for ${path}`, err);
+        log?.warn(`agentMemory: upload failed for ${path}`, err);
       }
     }
-    if (uploaded > 0) log?.info(`spectron: seeded ${uploaded} memory file(s)`);
+    if (uploaded > 0) log?.info(`agentMemory: seeded ${uploaded} memory file(s)`);
   }
 
   return { ok, uploaded };

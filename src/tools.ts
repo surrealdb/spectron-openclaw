@@ -1,8 +1,8 @@
-// The seven agent-callable tools, one per Spectron operation. The agent uses
+// The seven agent-callable tools, one per Agent Memory operation. The agent uses
 // these for deliberate memory access, distinct from the automatic recall and
 // persistence the hooks provide. Following memsearch's progressive pattern,
-// spectron_recall is the semantic entry point, spectron_context returns
-// prompt-ready text, and spectron_inspect drills into a specific entity.
+// agent_memory_recall is the semantic entry point, agent_memory_context returns
+// prompt-ready text, and agent_memory_inspect drills into a specific entity.
 
 import { Type } from "typebox";
 import type { ResolvedConfig } from "./config.js";
@@ -22,7 +22,7 @@ async function guard(run: () => Promise<ToolResult>): Promise<ToolResult> {
     return await run();
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return fail(`Spectron error: ${message}`);
+    return fail(`Agent Memory error: ${message}`);
   }
 }
 
@@ -50,7 +50,7 @@ export function buildTools(
 ): ToolDefinition[] {
   return [
     {
-      name: "spectron_remember",
+      name: "agent_memory_remember",
       description:
         "Store a fact or note in long-term memory. Use for durable information " +
         "worth recalling in future sessions.",
@@ -74,7 +74,7 @@ export function buildTools(
         }),
     },
     {
-      name: "spectron_recall",
+      name: "agent_memory_recall",
       description:
         "Semantic search over memory. Start here to find what is known about a " +
         "topic; returns ranked snippets.",
@@ -99,7 +99,7 @@ export function buildTools(
         }),
     },
     {
-      name: "spectron_context",
+      name: "agent_memory_context",
       description:
         "Retrieve memory as preformatted context text ready to reason over. " +
         "Use when you want a synthesised briefing rather than raw hits.",
@@ -119,7 +119,7 @@ export function buildTools(
         }),
     },
     {
-      name: "spectron_reflect",
+      name: "agent_memory_reflect",
       description:
         "Run an LLM synthesis pass over stored memory to answer a reflective " +
         "question. Set persist to save the resulting insights.",
@@ -138,7 +138,7 @@ export function buildTools(
         }),
     },
     {
-      name: "spectron_forget",
+      name: "agent_memory_forget",
       description:
         "Remove memories matching a natural-language description. Set purge to " +
         "also erase supersession history.",
@@ -157,7 +157,7 @@ export function buildTools(
         }),
     },
     {
-      name: "spectron_upload",
+      name: "agent_memory_upload",
       description:
         "Ingest a document into memory. Provide the text body; it is chunked, " +
         "embedded, and made searchable.",
@@ -181,7 +181,7 @@ export function buildTools(
         }),
     },
     {
-      name: "spectron_inspect",
+      name: "agent_memory_inspect",
       description:
         "Inspect a specific memory reference. Ref grammar: entity:<type>/<name>, " +
         "attribute:<type>/<name>/<key>, relation:..., passage:<doc>/<i>, trace:<id>.",

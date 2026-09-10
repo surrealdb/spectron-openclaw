@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 // Builds the plugin entry to an ESM file that OpenClaw loads via
-// package.json "openclaw.extensions". Runtime dependencies (@surrealdb/spectron,
+// package.json "openclaw.extensions". Runtime dependencies (@surrealdb/memory,
 // typebox) stay external and are installed alongside the plugin as normal npm
 // deps; openclaw is external because the gateway provides it at runtime.
 export default defineConfig({
@@ -11,5 +11,5 @@ export default defineConfig({
   dts: true,
   clean: true,
   sourcemap: true,
-  external: ["openclaw", "@surrealdb/spectron", "typebox"],
+  external: ["openclaw", "@surrealdb/memory", "typebox"],
 });

@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { expandEnv, missingConnectionFields, resolveConfig } from "../src/config.js";
 
 const ENV = {
-  SPECTRON_ENDPOINT: "https://ep.example",
-  SPECTRON_API_KEY: "sp-secret",
-  SPECTRON_CONTEXT: "acme",
+  AGENT_MEMORY_ENDPOINT: "https://ep.example",
+  AGENT_MEMORY_API_KEY: "sp-secret",
+  AGENT_MEMORY_CONTEXT: "acme",
 };
 
 describe("expandEnv", () => {
@@ -13,7 +13,7 @@ describe("expandEnv", () => {
   });
 
   it("expands ${VAR} references", () => {
-    expect(expandEnv("${SPECTRON_API_KEY}", ENV)).toBe("sp-secret");
+    expect(expandEnv("${AGENT_MEMORY_API_KEY}", ENV)).toBe("sp-secret");
   });
 
   it("returns undefined for an unset reference", () => {
@@ -37,9 +37,9 @@ describe("missingConnectionFields", () => {
 
   it("reports none when all resolve", () => {
     const raw = {
-      endpoint: "${SPECTRON_ENDPOINT}",
-      apiKey: "${SPECTRON_API_KEY}",
-      context: "${SPECTRON_CONTEXT}",
+      endpoint: "${AGENT_MEMORY_ENDPOINT}",
+      apiKey: "${AGENT_MEMORY_API_KEY}",
+      context: "${AGENT_MEMORY_CONTEXT}",
     };
     expect(missingConnectionFields(raw, ENV)).toEqual([]);
   });
@@ -47,9 +47,9 @@ describe("missingConnectionFields", () => {
 
 describe("resolveConfig", () => {
   const base = {
-    endpoint: "${SPECTRON_ENDPOINT}",
-    apiKey: "${SPECTRON_API_KEY}",
-    context: "${SPECTRON_CONTEXT}",
+    endpoint: "${AGENT_MEMORY_ENDPOINT}",
+    apiKey: "${AGENT_MEMORY_API_KEY}",
+    context: "${AGENT_MEMORY_CONTEXT}",
   };
 
   it("throws with a helpful message when unconfigured", () => {

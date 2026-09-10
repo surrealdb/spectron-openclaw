@@ -1,28 +1,28 @@
-// Quickstart: the Spectron operations this plugin wires into OpenClaw, run
+// Quickstart: the Agent Memory operations this plugin wires into OpenClaw, run
 // directly against the SDK so you can see them work end to end without a
 // gateway. Each step notes the OpenClaw hook it corresponds to inside the
 // plugin.
 //
-// Run against a live Spectron endpoint:
-//   export SPECTRON_ENDPOINT=... SPECTRON_API_KEY=... SPECTRON_CONTEXT=...
+// Run against a live Agent Memory endpoint:
+//   export AGENT_MEMORY_ENDPOINT=... AGENT_MEMORY_API_KEY=... AGENT_MEMORY_CONTEXT=...
 //   npx tsx examples/quickstart.ts
 //
 // (tsx runs TypeScript directly; any equivalent ESM TS runner works.)
 
-import { Spectron } from "@surrealdb/spectron";
+import { AgentMemory } from "@surrealdb/memory";
 
-const endpoint = process.env.SPECTRON_ENDPOINT;
-const apiKey = process.env.SPECTRON_API_KEY;
-const context = process.env.SPECTRON_CONTEXT;
+const endpoint = process.env.AGENT_MEMORY_ENDPOINT;
+const apiKey = process.env.AGENT_MEMORY_API_KEY;
+const context = process.env.AGENT_MEMORY_CONTEXT;
 
 if (!endpoint || !apiKey || !context) {
   console.error(
-    "Set SPECTRON_ENDPOINT, SPECTRON_API_KEY, and SPECTRON_CONTEXT before running.",
+    "Set AGENT_MEMORY_ENDPOINT, AGENT_MEMORY_API_KEY, and AGENT_MEMORY_CONTEXT before running.",
   );
   process.exit(1);
 }
 
-const client = new Spectron({ endpoint, apiKey, context });
+const client = new AgentMemory({ endpoint, apiKey, context });
 
 // gateway_start hook: verify the connection early.
 await client.health();
@@ -50,7 +50,7 @@ for (const hit of recalled.hits ?? []) {
   console.log(`  [${hit.score.toFixed(3)}] ${hit.text}`);
 }
 
-// spectron_reflect tool: synthesise over memory.
+// agent_memory_reflect tool: synthesise over memory.
 const reflection = await client.reflect("Summarise what you know about the user.");
 console.log("\nreflection:\n" + (reflection.reflection || "(none)"));
 
@@ -58,6 +58,6 @@ console.log("\nreflection:\n" + (reflection.reflection || "(none)"));
 const consolidated = await client.consolidate();
 console.log(`\nconsolidated: ${consolidated.created} new fact(s)`);
 
-// spectron_forget tool / CLI: remove matching memories.
+// agent_memory_forget tool / CLI: remove matching memories.
 const forgotten = await client.forget("dark mode preference", { purge: false });
 console.log(`forgot: ${forgotten.deleted} row(s)`);

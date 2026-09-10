@@ -1,4 +1,4 @@
-// Reads and validates the plugin config from plugins.entries.spectron.config.
+// Reads and validates the plugin config from plugins.entries.agentMemory.config.
 //
 // Connection fields (endpoint, apiKey, context) support ${ENV_VAR} references
 // so secrets stay out of openclaw.json. Everything else has a sensible default
@@ -18,7 +18,7 @@ export interface ResolvedConfig {
   recallLens: Scope;
   /** Scope the plugin writes memories to. Undefined = the key's default write region. */
   writeScope: Scope;
-  /** Principal to act on behalf of for every call (X-Spectron-On-Behalf-Of). */
+  /** Principal to act on behalf of for every call (X-Agent Memory-On-Behalf-Of). */
   onBehalfOf?: string;
   autoRecall: boolean;
   autoCapture: boolean;
@@ -103,9 +103,9 @@ export function resolveConfig(
   const missing = missingConnectionFields(cfg, env);
   if (missing.length > 0) {
     throw new Error(
-      `spectron plugin: missing required config field(s): ${missing.join(", ")}. ` +
-        `Set them under plugins.entries.spectron.config (env references like ` +
-        `"\${SPECTRON_API_KEY}" are supported).`,
+      `agentMemory plugin: missing required config field(s): ${missing.join(", ")}. ` +
+        `Set them under plugins.entries.agentMemory.config (env references like ` +
+        `"\${AGENT_MEMORY_API_KEY}" are supported).`,
     );
   }
 

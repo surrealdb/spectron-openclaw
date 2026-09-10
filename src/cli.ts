@@ -1,4 +1,4 @@
-// `openclaw spectron ...` command handlers.
+// `openclaw agentMemory ...` command handlers.
 //
 // Each handler is a plain async function that returns the text to print (or
 // throws on failure), so they can be unit tested without the OpenClaw CLI
@@ -23,7 +23,7 @@ export interface CliContext {
 function requireConfig(ctx: CliContext): ResolvedConfig {
   if (!ctx.config) {
     throw new Error(
-      "spectron is not configured. Run `openclaw spectron setup` and set endpoint, apiKey, and context.",
+      "agentMemory is not configured. Run `openclaw agentMemory setup` and set endpoint, apiKey, and context.",
     );
   }
   return ctx.config;
@@ -34,13 +34,13 @@ export function setupCommand(opts: { takeover?: boolean } = {}): string {
   const configBlock = {
     plugins: {
       entries: {
-        spectron: {
+        agentMemory: {
           enabled: true,
           hooks: { allowConversationAccess: true, allowPromptInjection: true },
           config: {
-            endpoint: "${SPECTRON_ENDPOINT}",
-            apiKey: "${SPECTRON_API_KEY}",
-            context: "${SPECTRON_CONTEXT}",
+            endpoint: "${AGENT_MEMORY_ENDPOINT}",
+            apiKey: "${AGENT_MEMORY_API_KEY}",
+            context: "${AGENT_MEMORY_CONTEXT}",
           },
         },
       },
@@ -53,9 +53,9 @@ export function setupCommand(opts: { takeover?: boolean } = {}): string {
     JSON.stringify(configBlock, null, 2),
     "",
     "Then set the connection secrets in your environment:",
-    "  export SPECTRON_ENDPOINT=...",
-    "  export SPECTRON_API_KEY=...",
-    "  export SPECTRON_CONTEXT=...",
+    "  export AGENT_MEMORY_ENDPOINT=...",
+    "  export AGENT_MEMORY_API_KEY=...",
+    "  export AGENT_MEMORY_CONTEXT=...",
     "",
     "The two hook flags are required: allowConversationAccess enables per-turn",
     "persistence (agent_end) and allowPromptInjection enables auto-recall.",
@@ -64,7 +64,7 @@ export function setupCommand(opts: { takeover?: boolean } = {}): string {
   if (opts.takeover) {
     lines.push(
       "",
-      "Takeover (EXPERIMENTAL): also merge this to make Spectron the sole memory",
+      "Takeover (EXPERIMENTAL): also merge this to make Agent Memory the sole memory",
       "provider, disabling the built-in memory-core:",
       "",
       JSON.stringify(takeoverConfigPatch(), null, 2),
@@ -72,7 +72,7 @@ export function setupCommand(opts: { takeover?: boolean } = {}): string {
   } else {
     lines.push(
       "",
-      "This runs alongside built-in memory (augment mode). To make Spectron the",
+      "This runs alongside built-in memory (augment mode). To make Agent Memory the",
       "sole provider instead, re-run with --takeover.",
     );
   }
@@ -105,20 +105,20 @@ export async function statusCommand(ctx: CliContext): Promise<string> {
 export async function healthCommand(ctx: CliContext): Promise<string> {
   requireConfig(ctx);
   await ctx.resolve().health();
-  return "spectron: healthy";
+  return "agentMemory: healthy";
 }
 
 /** Re-seeds workspace memory files into the context. */
 export async function indexCommand(ctx: CliContext): Promise<string> {
   const config = requireConfig(ctx);
   const res = await bootstrap(ctx.resolve(), { ...config, autoIndex: true }, ctx.workspaceDir);
-  if (!res.ok) return "spectron: health check failed, nothing indexed";
-  return `spectron: indexed ${res.uploaded} memory file(s)`;
+  if (!res.ok) return "agentMemory: health check failed, nothing indexed";
+  return `agentMemory: indexed ${res.uploaded} memory file(s)`;
 }
 
 export async function recallCommand(ctx: CliContext, query: string): Promise<string> {
   const config = requireConfig(ctx);
-  if (!query || query.trim() === "") throw new Error("usage: openclaw spectron recall <query>");
+  if (!query || query.trim() === "") throw new Error("usage: openclaw agentMemory recall <query>");
   const res = await ctx.resolve().recall(query, { k: config.recallK, lens: config.recallLens });
   const hits = res.hits ?? [];
   if (hits.length === 0) return "No matching memories.";
@@ -127,7 +127,7 @@ export async function recallCommand(ctx: CliContext, query: string): Promise<str
 
 export async function reflectCommand(ctx: CliContext, query: string): Promise<string> {
   requireConfig(ctx);
-  if (!query || query.trim() === "") throw new Error("usage: openclaw spectron reflect <query>");
+  if (!query || query.trim() === "") throw new Error("usage: openclaw agentMemory reflect <query>");
   const res = await ctx.resolve().reflect(query, { persist: false });
   return res.reflection?.trim() || "No reflection produced.";
 }
@@ -138,7 +138,7 @@ export async function forgetCommand(
   opts: { purge?: boolean } = {},
 ): Promise<string> {
   requireConfig(ctx);
-  if (!query || query.trim() === "") throw new Error("usage: openclaw spectron forget <query>");
+  if (!query || query.trim() === "") throw new Error("usage: openclaw agentMemory forget <query>");
   const res = await ctx.resolve().forget(query, { purge: opts.purge });
   return `Forgot ${res.deleted} memory row(s).`;
 }
